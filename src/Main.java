@@ -7,7 +7,7 @@ public class Main extends JFrame {
 
     public static void main(String[] args) {
         Main app = new Main();
-        app.setSize(800, 600);
+        app.setSize(800, 800);
         app.setTitle("Concurrent Grid Pathfinder");
         app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         app.setResizable(false);
