@@ -19,7 +19,7 @@ public class WindowView extends JPanel implements PropertyChangeListener {
         gridView = new GridView();
         add(gridView, BorderLayout.CENTER);
 
-        GridBoard.getInstance().addPropertyChangeListener(this);
+        GridModel.getInstance().addPropertyChangeListener(this);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class WindowView extends JPanel implements PropertyChangeListener {
 
             for (Component c : gridView.getComponents()) {
                 if (c instanceof GridCellView cell) {
-                    GridBoard.getInstance().removePropertyChangeListener(cell);
+                    GridModel.getInstance().removePropertyChangeListener(cell);
                 }
             }
 
@@ -41,7 +41,7 @@ public class WindowView extends JPanel implements PropertyChangeListener {
     }
 
     public static void removeAllCellListeners() {
-        GridBoard board = GridBoard.getInstance();
+        GridModel board = GridModel.getInstance();
 
         for (PropertyChangeListener listener : board.getPropertyChangeListeners()) {
             if (listener instanceof GridCellView) {

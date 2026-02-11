@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class GridView extends JPanel {
 
-    private final GridBoard board = GridBoard.getInstance();
+    private final GridModel board = GridModel.getInstance();
 
     public GridView() {
         int size = board.getSize();

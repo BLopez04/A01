@@ -3,5 +3,7 @@ public enum GridCell {
     START,
     END,
     OBSTACLE,
-    PATH
+    PATH,
+    FRONTIER,
+    VISITED,
 }

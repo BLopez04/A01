@@ -7,7 +7,7 @@ public class GridCellView extends JPanel implements PropertyChangeListener {
 
     private final int x;
     private final int y;
-    private final GridBoard board = GridBoard.getInstance();
+    private final GridModel board = GridModel.getInstance();
     private static int clickCount = 0;
 
     public GridCellView(int x, int y) {
@@ -51,6 +51,8 @@ public class GridCellView extends JPanel implements PropertyChangeListener {
             case END -> setBackground(Color.PINK);
             case OBSTACLE -> setBackground(Color.BLACK);
             case PATH -> setBackground(Color.GREEN);
+            case FRONTIER -> setBackground(Color.CYAN);
+            case VISITED -> setBackground(Color.RED);
         }
     }
 

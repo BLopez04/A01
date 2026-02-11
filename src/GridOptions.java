@@ -1,7 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Optional;
 
 public class GridOptions extends JPanel {
+    public boolean startedAstar = false;
 
     public GridOptions() {
         setBorder(BorderFactory.createLineBorder(Color.black));
@@ -21,15 +24,19 @@ public class GridOptions extends JPanel {
 
         // This is where you add start functionality
         start.addActionListener(e -> {
-            System.out.println("start");
+            if (startedAstar) return;
+            Thread astar = new Thread(new AstarPathfinding());
+            astar.start();
+            startedAstar = true;
         });
 
         reset.addActionListener(e -> {
             WindowView.removeAllCellListeners();
             GridCellView.resetClickCount();
 
-            int size = GridBoard.getInstance().getSize();
-            GridBoard.getInstance().setSize(size);
+            int size = GridModel.getInstance().getSize();
+            GridModel.getInstance().setSize(size);
+            startedAstar = false;
         });
 
 
@@ -41,7 +48,7 @@ public class GridOptions extends JPanel {
             WindowView.removeAllCellListeners();
             GridCellView.resetClickCount();
 
-            GridBoard.getInstance().setSize(newSize);
+            GridModel.getInstance().setSize(newSize);
         });
         numberMenu.setSelectedIndex(19);
 
