@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class GridOptions extends JPanel {
-    public boolean startedAstar = false;
 
     public GridOptions() {
         setBorder(BorderFactory.createLineBorder(Color.black));
@@ -24,10 +23,9 @@ public class GridOptions extends JPanel {
 
         // This is where you add start functionality
         start.addActionListener(e -> {
-            if (startedAstar) return;
+            GridModel.getInstance().clearSearchMarks();
             Thread astar = new Thread(new AstarPathfinding());
             astar.start();
-            startedAstar = true;
         });
 
         reset.addActionListener(e -> {
@@ -36,7 +34,6 @@ public class GridOptions extends JPanel {
 
             int size = GridModel.getInstance().getSize();
             GridModel.getInstance().setSize(size);
-            startedAstar = false;
         });
 
 

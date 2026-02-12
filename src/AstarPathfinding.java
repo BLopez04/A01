@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -6,21 +8,25 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-public class AstarPathfinding implements Runnable{
+public class AstarPathfinding implements Runnable, PropertyChangeListener {
     private static final long SLEEPTIME = 500;
     private static int size;
     private static Point empty = new Point(-1, -1);
+    private boolean hasFinished = false;
 
     @Override
     public void run() {
-        ArrayList<Point> path = AstarPathfinding.computePath();
+        GridModel.getInstance().addPropertyChangeListener(this);
+        ArrayList<Point> path = computePath();
+
+        if (hasFinished) return;
 
         // draw path using list
         for (Point p : path){
             GridModel.getInstance().set(p.x, p.y, GridCell.PATH);
         }
     }
-    public static ArrayList<Point> computePath(){
+    public ArrayList<Point> computePath(){
 
         // get the size of the blackboard to determine the
         // bounds of the grid
@@ -102,6 +108,7 @@ public class AstarPathfinding implements Runnable{
                 }
                 if(curSize == openSet.size() && !openSet.contains(newNeighbor)){
                     try{
+                        if(hasFinished) return new ArrayList<>();
                         GridModel.getInstance().set(newNeighbor.pos.x, newNeighbor.pos.y, GridCell.FRONTIER);
                         Thread.sleep(SLEEPTIME);
                     }catch (Exception e){}
@@ -110,6 +117,7 @@ public class AstarPathfinding implements Runnable{
             }
 
             try{
+                if(hasFinished) return new ArrayList<>();
                 if(!curPoint.pos.equals(start) && !curPoint.pos.equals(end)) GridModel.getInstance().set(curPoint.pos.x, curPoint.pos.y, GridCell.VISITED);
                 Thread.sleep(SLEEPTIME);
             }catch (Exception e){}
@@ -125,5 +133,12 @@ public class AstarPathfinding implements Runnable{
 
     private static boolean withinReach(Point cur, Point end) {
         return (Math.abs(cur.x - end.x) + Math.abs(cur.y - end.y)) == 1;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if ("clearSearchMarks".equals(evt.getPropertyName()) || "gridReset".equals(evt.getPropertyName())) {
+            hasFinished = true;
+        }
     }
 }

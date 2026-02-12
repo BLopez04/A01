@@ -68,4 +68,24 @@ public class GridModel extends PropertyChangeSupport {
             read.unlock();
         }
     }
+
+    public void clearSearchMarks(){
+        Lock write = lock.writeLock();
+        write.lock();
+        try{
+            for (int y = 0; y < size; y++){
+                for (int x = 0; x < size; x++){
+                    if(grid[y][x] == GridCell.VISITED || grid[y][x] == GridCell.FRONTIER || grid[y][x] == GridCell.PATH) {
+                        GridCell prev = grid[y][x];
+                        grid[y][x] = GridCell.EMPTY;
+                        firePropertyChange("cell", prev, new Point(x, y));
+                    }
+                }
+            }
+
+            firePropertyChange("clearSearchMarks", null, null);
+        } finally {
+            write.unlock();
+        }
+    }
 }
