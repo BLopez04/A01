@@ -82,7 +82,7 @@ public class AstarPathfinding implements Runnable, PropertyChangeListener {
                 ArrayList<Point> endPath = new ArrayList<>();
                 Optional<AstarNode> backTrace = Optional.of(curPoint);
                 while(!backTrace.get().pos.equals(start)){
-                    endPath.addFirst(backTrace.get().pos);
+                    endPath.add(0, backTrace.get().pos);
                     backTrace = backTrace.get().previous;
                 }
                 return endPath;

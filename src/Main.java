@@ -12,8 +12,6 @@ public class Main extends JFrame {
         app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         app.setResizable(false);
         app.setVisible(true);
-
-
     }
 
     public Main() {
